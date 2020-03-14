@@ -10,13 +10,18 @@ import (
 func main() {
 	lic := make(chan string)
 	lexer := boogie.NewLexer(lic)
-	reader := bufio.NewReader(os.Stdin)
 
 	go lexer.Run()
 
 	for {
+		r := bufio.NewReader(os.Stdin)
 		fmt.Print(">")
-		text, _ := reader.ReadString('\n')
-		lexer.In <- text
+		t, err := r.ReadString('\n')
+
+		if err != nil {
+			panic(err)
+		}
+
+		lexer.In <- t
 	}
 }
