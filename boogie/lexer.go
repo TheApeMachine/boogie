@@ -11,8 +11,14 @@ const (
 	KEYWORD
 )
 
+type Lexeme struct {
+	Id  string
+	Val string
+}
+
 type Lexer struct {
 	In       chan string
+	parser   *Parser
 	curChar  string
 	curCtx   ContextState
 	keywords []string
@@ -22,12 +28,15 @@ type Lexer struct {
 func NewLexer(in chan string) *Lexer {
 	return &Lexer{
 		In:       in,
+		parser:   NewParser(),
 		curCtx:   START,
 		keywords: []string{"QUIT"},
 	}
 }
 
 func (lexer *Lexer) Run() {
+	go lexer.parser.Run()
+
 	for {
 		loc := <-lexer.In
 		err := lexer.process(loc)
@@ -50,7 +59,7 @@ func (lexer *Lexer) process(loc string) error {
 				lexer.curCtx = KEYWORD
 			}
 		case KEYWORD:
-			// Do something...
+			lexer.parser.In <- Lexeme{Id: "key", Val: "QUIT"}
 		}
 	}
 
