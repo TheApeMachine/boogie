@@ -1,28 +1,25 @@
 package boogie
 
+type ASTNode struct{}
+
+type AST struct{}
+
 type Parser struct {
-	In  chan Lexeme
-	ast map[string][]string
+	lexer *Lexer
 }
 
-func NewParser() *Parser {
-	ast := make(map[string][]string)
-	ast["start"] = make([]string, 0)
-
+func NewParser(lexer *Lexer) *Parser {
 	return &Parser{
-		In:  make(chan Lexeme),
-		ast: ast,
+		lexer: lexer,
 	}
 }
 
-func (parser *Parser) Run() {
-	for {
-		lex := <-parser.In
-		_ = parser.process(lex)
-	}
-}
+func (parser *Parser) BuildAST() *AST {
+	var ast AST
 
-func (parser *Parser) process(lex Lexeme) error {
-	parser.ast["start"] = append(parser.ast["start"], lex.Val)
-	return nil
+	for lexeme := range parser.lexer.GenerateLexemes() {
+		_ = lexeme
+	}
+
+	return &ast
 }
