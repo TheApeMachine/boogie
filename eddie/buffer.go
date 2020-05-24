@@ -38,6 +38,8 @@ func (buffer *Buffer) Load() {
 	for scanner.Scan() {
 		buffer.data = append(buffer.data, scanner.Text())
 	}
+
+	fmt.Print(buffer.GetData())
 }
 
 func (buffer *Buffer) SetFocus() {
