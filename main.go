@@ -19,7 +19,7 @@ func main() {
 	if editFile != nil {
 		ui := apeterm.NewUI()
 		buffer := eddie.NewBuffer(ui, editFile)
-		//buffer.Load()
+		buffer.Load()
 		buffer.SetFocus()
 		prog = buffer.GetData()
 	}
