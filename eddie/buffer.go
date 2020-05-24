@@ -50,13 +50,13 @@ func (buffer *Buffer) SetFocus() {
 	defer terminal.Restore(0, oldState)
 
 	for {
-		str, _ := buffer.ui.ReadLine()
+		str, _ := buffer.ui.ReadInputByte()
 
 		if str == "q" {
 			break
 		}
 
-		fmt.Println(str)
+		fmt.Print(str)
 	}
 }
 

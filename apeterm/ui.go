@@ -1,7 +1,6 @@
 package apeterm
 
 import (
-	"fmt"
 	"io"
 	"os"
 	"sync"
@@ -26,21 +25,17 @@ func NewUI() *UI {
 	}
 }
 
-// ReadLine, bit brute-force.
+// ReadInputByte, bit brute-force.
 // TODO: Please get the cast out of here!
-func (ui *UI) ReadLine() (string, error) {
+func (ui *UI) ReadInputByte() (string, error) {
 	var rBuf []byte
 
 	for {
 		var buf [1]byte
-		n, err := ui.Reader.(*os.File).Read(buf[:])
+		_, err := ui.Reader.(*os.File).Read(buf[:])
 
 		if err != nil && err != io.EOF {
 			return "", err
-		}
-
-		if n == 0 || buf[0] == '\n' || buf[0] == '\r' {
-			break
 		}
 
 		if buf[0] == 3 {
@@ -48,8 +43,11 @@ func (ui *UI) ReadLine() (string, error) {
 		}
 
 		rBuf = append(rBuf, buf[0])
+
+		if len(rBuf) > 0 {
+			return string(rBuf), nil
+		}
 	}
 
-	fmt.Fprintf(ui.Writer, "\n")
 	return string(rBuf), nil
 }
