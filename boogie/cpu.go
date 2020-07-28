@@ -1,16 +1,10 @@
 package boogie
 
-import (
-	"fmt"
-)
+import "fmt"
 
 type OpCode uint8
 type Register uint8
 
-/*
-enum of a OpCode type.
-Our CPU can only accept OpCodes, with the type system we will have to convert incoming values that are not OpCodes.
-*/
 const (
 	HLT OpCode = iota
 	LOD
@@ -20,9 +14,6 @@ const (
 	DIV
 )
 
-/*
-enum of our registers.
-*/
 const (
 	R0 Register = iota
 	R1
@@ -39,7 +30,6 @@ func NewCpu() *Cpu {
 	}
 
 	cpu.mem = append(cpu.mem, HLT)
-
 	return &cpu
 }
 
@@ -47,19 +37,9 @@ func (cpu *Cpu) Run() {
 	for {
 		switch cpu.nextInstruction() {
 		case HLT:
-			fmt.Println("breaking")
+			fmt.Println("HALT")
 			return
 		}
-	}
-}
-
-func (cpu *Cpu) fetch() {
-	cpu.pc++
-}
-
-func (cpu *Cpu) execute() {
-	switch {
-
 	}
 }
 
