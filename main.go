@@ -1,12 +1,16 @@
 package main
 
-import "github.com/theapemachine/boogie/boogie"
+import (
+	"os"
+
+	"github.com/theapemachine/boogie/boogie"
+)
 
 func main() {
 	//editFile := flag.String("e", "test.boo", "input file to edit")
 	//flag.Parse()
 
-	//prog := os.Args[1]
+	prog := os.Args[1]
 
 	//if editFile != nil {
 	//	ui := apeterm.NewUI()
@@ -16,14 +20,13 @@ func main() {
 	//	prog = buffer.GetData()
 	//}
 
-	//program := boogie.NewProgram(prog)
-	//lexer := boogie.NewLexer(program)
-	//parser := boogie.NewParser(lexer)
-	//evaluator := boogie.NewEvaluator(parser)
+	program := boogie.NewProgram(prog)
+	lexer := boogie.NewLexer(program)
+	parser := boogie.NewParser(lexer)
+	compiler := boogie.NewCompiler()
 
-	//for out := range evaluator.GenerateOutput() {
-	//	fmt.Print(*out)
-	//}
+	compiler.CompileFromAST(parser)
+
 	cpu := boogie.NewCpu()
 	cpu.Run()
 }

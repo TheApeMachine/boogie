@@ -49,20 +49,20 @@ func (cpu *Cpu) Run() {
 	exit := false
 
 	for {
-		debug(fmt.Sprintf("pc: %d", cpu.pc))
+		// debug(fmt.Sprintf("pc: %d", cpu.pc))
 		switch cpu.mem[cpu.pc] {
 		case HLT:
-			debug("HLT")
+			// debug("HLT")
 			exit = true
 			break
 		case LOD:
-			debug("LOD")
+			// debug("LOD")
 			cpu.load()
 		case ADD:
-			debug("ADD")
+			// debug("ADD")
 			cpu.add()
 		default:
-			debug("ILLEGAL INSTRUCTION")
+			// debug("ILLEGAL INSTRUCTION")
 			exit = true
 			break
 		}
@@ -71,8 +71,8 @@ func (cpu *Cpu) Run() {
 			break
 		}
 
-		debug(fmt.Sprintf("mem: %v", cpu.mem))
-		debug(fmt.Sprintf("regs: %v", cpu.regs))
+		// debug(fmt.Sprintf("mem: %v", cpu.mem))
+		// debug(fmt.Sprintf("regs: %v", cpu.regs))
 	}
 }
 
